@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "ALIFSAY - Premium Pakistani Fashion"
+version = "1.0.0"
+id = "artifacts/alifsay"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18197
+
+[services.development]
+run = "pnpm --filter @workspace/alifsay run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/alifsay", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/alifsay/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18197"
+BASE_PATH = "/"

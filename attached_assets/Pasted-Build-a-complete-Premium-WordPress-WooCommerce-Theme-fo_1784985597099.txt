@@ -1,0 +1,377 @@
+Build a complete Premium WordPress WooCommerce Theme for ALIFSAY.COM, an international Pakistani fashion and designer clothing e-commerce store.
+
+IMPORTANT:
+
+This is NOT just a homepage design.
+
+Build a complete production-ready WooCommerce theme including all required pages, templates, mobile responsiveness, and premium e-commerce functionality.
+
+The website will receive paid traffic from Google Ads worldwide, so PERFORMANCE and CONVERSION RATE are the highest priorities.
+
+----------------------------------------------------
+
+BUSINESS MODEL
+
+ALIFSAY sells:
+
+- Pakistani Designer Dresses
+- Luxury Pret
+- Formal Wear
+- Wedding Dresses
+- Men's Wear
+- Kids Collection
+- Islamic Wear
+- Unstitched Collection
+- Accessories
+
+Target Countries:
+
+- USA
+- Canada
+- UK
+- UAE
+- Europe
+- Australia
+- Worldwide Shipping
+
+----------------------------------------------------
+
+TECH STACK REQUIREMENTS
+
+The theme must be:
+
+- WordPress compatible
+- WooCommerce compatible
+- LiteSpeed Cache compatible
+- Cloudflare compatible
+- Object Cache compatible
+- Redis compatible
+- Mobile-first
+- SEO optimized
+- Core Web Vitals optimized
+- Google Ads optimized
+- High traffic optimized
+- Fully cache friendly
+
+----------------------------------------------------
+
+PERFORMANCE REQUIREMENTS
+
+Homepage should load under 2 seconds.
+
+Requirements:
+
+- Lightweight code
+- Minimal JavaScript
+- Optimized CSS
+- Lazy loading
+- No unnecessary plugins
+- No heavy animations
+- No render blocking resources
+- Cache friendly architecture
+- Fast database queries
+- High concurrent traffic support
+
+----------------------------------------------------
+
+RESPONSIVE DESIGN
+
+Must support:
+
+- Mobile
+- Tablet
+- Laptop
+- Desktop
+- Retina Displays
+
+The mobile version should NOT be an afterthought.
+
+Design mobile-first.
+
+----------------------------------------------------
+
+COMPLETE THEME REQUIREMENTS
+
+Create all templates:
+
+1. Homepage
+
+2. Shop Page
+
+3. Category Pages
+
+4. Product Collection Pages
+
+5. Single Product Page
+
+6. Search Results Page
+
+7. Cart Page
+
+8. Checkout Page
+
+9. Wishlist Page
+
+10. My Account Page
+
+11. Login/Register Page
+
+12. Order Tracking Page
+
+13. About Us
+
+14. Contact Us
+
+15. FAQ
+
+16. Shipping Policy
+
+17. Return Policy
+
+18. Terms & Conditions
+
+19. Privacy Policy
+
+20. Blog Page
+
+21. Blog Single Page
+
+22. Newsletter Page
+
+23. 404 Page
+
+----------------------------------------------------
+
+HEADER FEATURES
+
+Include:
+
+- Logo
+- Search Bar
+- Categories Menu
+- Wishlist
+- Cart
+- User Account
+- Currency Selector
+- Country Selector
+- Language Ready
+- Announcement Bar
+
+----------------------------------------------------
+
+HOMEPAGE SECTIONS
+
+Include:
+
+- Hero Banner
+- Featured Categories
+- New Arrivals
+- Best Sellers
+- Featured Collections
+- Designer Brands
+- Customer Reviews
+- Why Choose Us
+- Worldwide Shipping
+- Newsletter Signup
+- Instagram Feed
+- Footer
+
+----------------------------------------------------
+
+SINGLE PRODUCT PAGE
+
+Must include:
+
+- Product Gallery
+- Zoom Function
+- Multiple Images
+- Product Video Support
+- Product Description
+- Product Specifications
+- Product Details
+- Brand Information
+- Shipping Information
+- Return Policy
+- Delivery Estimate
+
+----------------------------------------------------
+
+PRODUCT OPTIONS
+
+Support:
+
+- Sizes
+- Colors
+- Fabric Types
+- Custom Attributes
+- Quantity Selector
+
+Size options examples:
+
+- XS
+- S
+- M
+- L
+- XL
+- XXL
+- Custom Size
+
+----------------------------------------------------
+
+SIZE CHART SYSTEM
+
+Build:
+
+- Popup Size Chart
+- Category Wise Size Chart
+- Brand Wise Size Chart
+- International Size Conversion
+
+Support:
+
+- US Sizes
+- UK Sizes
+- EU Sizes
+- Pakistani Sizes
+- Inches
+- CM
+
+----------------------------------------------------
+
+PRODUCT FILTERS
+
+Include:
+
+- Price Filter
+- Size Filter
+- Color Filter
+- Brand Filter
+- Category Filter
+- Fabric Filter
+- Availability Filter
+- Sale Filter
+
+Must use AJAX filtering.
+
+----------------------------------------------------
+
+WOOCOMMERCE FEATURES
+
+Include:
+
+- Quick View
+- Wishlist
+- Compare Products
+- Add to Cart
+- Buy Now
+- Recently Viewed Products
+- Related Products
+- Recommended Products
+- Product Sharing
+
+----------------------------------------------------
+
+CHECKOUT FEATURES
+
+Optimized one-page checkout.
+
+Include:
+
+- Guest Checkout
+- Coupon System
+- Multiple Payment Methods
+- Shipping Calculator
+- Tax Calculation
+- Country Based Shipping
+- Address Validation
+
+----------------------------------------------------
+
+GLOBAL SHIPPING SUPPORT
+
+Include:
+
+- Worldwide Shipping
+- Shipping Zones
+- Estimated Delivery Dates
+- Tracking System
+- Multi Country Support
+
+----------------------------------------------------
+
+MULTI CURRENCY SUPPORT
+
+Support:
+
+- USD
+- AED
+- GBP
+- EUR
+- CAD
+- AUD
+- PKR
+
+Currency switching must be fast and cache friendly.
+
+----------------------------------------------------
+
+SEO REQUIREMENTS
+
+Include:
+
+- Schema Markup
+- Open Graph
+- SEO Friendly URLs
+- Breadcrumbs
+- Product Schema
+- FAQ Schema
+
+----------------------------------------------------
+
+SPEED REQUIREMENTS
+
+Google PageSpeed optimized.
+
+Target:
+
+- Mobile score above 90
+- Desktop score above 95
+
+----------------------------------------------------
+
+SECURITY REQUIREMENTS
+
+Include:
+
+- Secure coding practices
+- Sanitized inputs
+- WooCommerce best practices
+- Cache compatibility
+
+----------------------------------------------------
+
+DESIGN REQUIREMENTS
+
+The theme should look:
+
+- Premium
+- Luxury
+- Minimal
+- Elegant
+- Modern
+- Fast
+- International fashion brand quality
+
+DO NOT make it look like a marketplace website.
+
+Design inspiration:
+
+Luxury fashion websites such as premium international clothing brands.
+
+----------------------------------------------------
+
+FINAL REQUIREMENT
+
+Generate a complete production-ready WooCommerce theme with all templates, responsive layouts, reusable components, and optimized code structure suitable for handling paid traffic spikes from Google Ads campaigns.
+
+The theme must prioritize SPEED, PERFORMANCE, CONVERSION RATE, MOBILE EXPERIENCE, and HIGH TRAFFIC HANDLING over visual effects.
