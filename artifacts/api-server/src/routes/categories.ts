@@ -10,6 +10,7 @@ async function getProductCount(categoryId: number): Promise<number> {
     .select({ count: sql<number>`count(*)::int` })
     .from(productsTable)
     .where(eq(productsTable.categoryId, categoryId));
+
   return count;
 }
 
@@ -29,36 +30,68 @@ function formatCategory(
 }
 
 router.get("/categories", async (_req, res): Promise<void> => {
-  const categories = await db
-    .select({
-      category: categoriesTable,
-      count: sql<number>`count(${productsTable.id})::int`,
-    })
-    .from(categoriesTable)
-    .leftJoin(productsTable, eq(productsTable.categoryId, categoriesTable.id))
-    .groupBy(categoriesTable.id)
-    .orderBy(categoriesTable.sortOrder);
+  try {
+    const categories = await db
+      .select({
+        category: categoriesTable,
+        count: sql<number>`count(${productsTable.id})::int`,
+      })
+      .from(categoriesTable)
+      .leftJoin(
+        productsTable,
+        eq(productsTable.categoryId, categoriesTable.id),
+      )
+      .groupBy(
+        categoriesTable.id,
+        categoriesTable.name,
+        categoriesTable.slug,
+        categoriesTable.description,
+        categoriesTable.imageUrl,
+        categoriesTable.sortOrder,
+        categoriesTable.createdAt,
+      )
+      .orderBy(categoriesTable.sortOrder);
 
-  res.json(
-    categories.map((r) => formatCategory(r.category, r.count)),
-  );
+    res.json(
+      categories.map((r) =>
+        formatCategory(r.category, r.count),
+      ),
+    );
+  } catch (error) {
+    console.error("Categories API Error:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
 });
 
 router.post("/categories", async (req, res): Promise<void> => {
   const parsed = CreateCategoryBody.safeParse(req.body);
+
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.message });
+    res.status(400).json({
+      error: parsed.error.message,
+    });
     return;
   }
 
-  const [category] = await db.insert(categoriesTable).values(parsed.data).returning();
-  res.status(201).json(formatCategory(category, 0));
+  const [category] = await db
+    .insert(categoriesTable)
+    .values(parsed.data)
+    .returning();
+
+  res.status(201).json(
+    formatCategory(category, 0),
+  );
 });
 
 router.get("/categories/:id", async (req, res): Promise<void> => {
   const params = GetCategoryParams.safeParse(req.params);
+
   if (!params.success) {
-    res.status(400).json({ error: params.error.message });
+    res.status(400).json({
+      error: params.error.message,
+    });
     return;
   }
 
@@ -68,12 +101,17 @@ router.get("/categories/:id", async (req, res): Promise<void> => {
     .where(eq(categoriesTable.id, params.data.id));
 
   if (!category) {
-    res.status(404).json({ error: "Category not found" });
+    res.status(404).json({
+      error: "Category not found",
+    });
     return;
   }
 
   const count = await getProductCount(category.id);
-  res.json(formatCategory(category, count));
+
+  res.json(
+    formatCategory(category, count),
+  );
 });
 
 export default router;
