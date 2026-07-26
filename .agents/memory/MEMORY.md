@@ -1,0 +1,3 @@
+- [Null query params cause 400s](null-params-400.md) — never pass `null` values to generated API hooks; omit the key instead or Zod coercion breaks.
+- [Public assets path](public-assets.md) — product images must live in `artifacts/alifsay/public/assets/products/`, not `src/assets/`, to be served at `/assets/products/*.jpg`.
+- [Session cookies in preview](session-cookies.md) — `credentials: "include"` must be set in `lib/api-client-react/src/custom-fetch.ts` fetch call for cart/wishlist session cookies to work through the Replit proxy.

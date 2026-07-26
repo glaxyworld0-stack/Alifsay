@@ -17,7 +17,7 @@ export default function Shop() {
   
   const { data, isLoading } = useListProducts({ 
     sort: sort as any,
-    categoryId: category,
+    ...(category != null ? { categoryId: category } : {}),
   });
 
   const categories = [
