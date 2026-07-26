@@ -2,7 +2,12 @@ import { Router, type IRouter } from "express";
 import multer from "multer";
 import csv from "csv-parser";
 import fs from "node:fs";
-import { db, productsTable, productVariationsTable, categoriesTable } from "@workspace/db";
+import {
+  db,
+  productsTable,
+  productVariationsTable,
+  categoriesTable,
+} from "@workspace/db";
 import { eq, and } from "drizzle-orm";
 
 const router: IRouter = Router();
@@ -27,7 +32,6 @@ async function getOrCreateCategory(path: string) {
     .map((x) => x.trim())
     .filter(Boolean);
 
-
   let parentId: number | null = null;
 
 
@@ -39,7 +43,7 @@ async function getOrCreateCategory(path: string) {
       .where(
         and(
           eq(categoriesTable.name, part),
-          parentId
+          parentId !== null
             ? eq(categoriesTable.parentId, parentId)
             : eq(categoriesTable.parentId, null)
         )
@@ -74,25 +78,25 @@ async function getOrCreateCategory(path: string) {
 
 function parseAttributes(row: any) {
 
-  const attributes: Record<string,string[]> = {};
+  const attributes: Record<string, string[]> = {};
 
 
-  if(row["Attribute 1 Name"]) {
+  if (row["Attribute 1 Name"]) {
 
     attributes[row["Attribute 1 Name"]] =
       row["Attribute 1 Value(s)"]
-      ?.split("|")
-      .map((x:string)=>x.trim()) || [];
+        ?.split("|")
+        .map((x: string) => x.trim()) || [];
 
   }
 
 
-  if(row["Attribute 2 Name"]) {
+  if (row["Attribute 2 Name"]) {
 
     attributes[row["Attribute 2 Name"]] =
       row["Attribute 2 Value(s)"]
-      ?.split("|")
-      .map((x:string)=>x.trim()) || [];
+        ?.split("|")
+        .map((x: string) => x.trim()) || [];
 
   }
 
@@ -105,116 +109,191 @@ function parseAttributes(row: any) {
 router.post(
   "/import/products",
   upload.single("file"),
-  async (req,res)=>{
+  async (req, res) => {
 
-    if(!req.file){
+
+    if (!req.file) {
 
       res.status(400).json({
-        error:"CSV file required"
+        error: "CSV file required",
       });
 
       return;
     }
 
 
-    const rows:any[]=[];
+
+    const rows: any[] = [];
 
 
     fs.createReadStream(req.file.path)
       .pipe(csv())
-      .on("data",(data)=>rows.push(data))
-      .on("end",async()=>{
+      .on("data", (data) => rows.push(data))
 
 
-        let imported=0;
+      .on("end", async () => {
 
 
-        for(const row of rows){
-
-
-          const categoryId =
-            row.Categories
-            ? await getOrCreateCategory(
-                row.Categories.split(",")[0]
-                )
-            : null;
+        let imported = 0;
 
 
 
-          if(row.Type === "variation"){
+        // پہلے Variable اور Simple Products import ہوں گے
 
+        for (const row of rows) {
+
+
+          if (row.Type === "variation") {
             continue;
-
           }
 
 
 
-          const attributes=parseAttributes(row);
+          const categoryId =
+            row.Category
+              ? await getOrCreateCategory(row.Category)
+              : null;
 
 
 
-          const [product]=await db
-          .insert(productsTable)
-          .values({
-
-            name:row.Name,
-
-            slug:slugify(row.Name),
-
-            type:row.Type || "simple",
-
-            description:
-              row.Description || null,
-
-            price:
-              row["Regular Price"] || "0",
-
-            salePrice:
-              row["Sale Price"] || null,
-
-            sku:
-              row.SKU || null,
+          const attributes = parseAttributes(row);
 
 
-            categoryId,
+
+          const [product] = await db
+            .insert(productsTable)
+            .values({
+
+              name: row.Name,
+
+              slug: slugify(row.Name),
+
+              type: row.Type || "simple",
+
+              description:
+                row.Description || null,
 
 
-            brand:
-              row.Brands || null,
+              price:
+                row["Regular Price"] || "0",
 
 
-            images:
-              row.Images
-              ?
-              row.Images.split(",")
-              :
-              [],
+              salePrice:
+                row["Sale Price"] || null,
 
 
-            attributes,
+              sku:
+                row.SKU || null,
 
 
-            sizes:
-              attributes["Choose Your Size Here"] || [],
+              categoryId,
 
 
-            colors:
-              attributes.Color || [],
+              brand:
+                row.Brand || null,
 
 
-          })
-          .returning();
+              images:
+                row.Image
+                  ? row.Image.split(",")
+                  : [],
+
+
+              attributes,
+
+
+              sizes:
+                attributes["Choose Your Size Here"] || [],
+
+
+              colors:
+                attributes.Color || [],
+
+
+            })
+            .returning();
 
 
 
           imported++;
 
 
-          if(row.Type==="variable"){
+        }
 
-            // variations will be imported from variation rows later
 
+
+        // اب Variations import ہوں گی
+
+        for (const row of rows) {
+
+
+          if (row.Type !== "variation") {
+            continue;
           }
+
+
+
+          const parent = await db
+            .select()
+            .from(productsTable)
+            .where(
+              eq(
+                productsTable.slug,
+                slugify(row.Name)
+              )
+            );
+
+
+
+          if (!parent.length) {
+            continue;
+          }
+
+
+
+          const attributes = parseAttributes(row);
+
+
+
+          await db
+            .insert(productVariationsTable)
+            .values({
+
+              productId: parent[0].id,
+
+
+              sku:
+                row.SKU || null,
+
+
+              price:
+                row["Regular Price"]
+                  ? row["Regular Price"]
+                  : null,
+
+
+              salePrice:
+                row["Sale Price"]
+                  ? row["Sale Price"]
+                  : null,
+
+
+              attributes,
+
+
+              stockQuantity:
+                row["Stock Quantity"]
+                  ? Number(row["Stock Quantity"])
+                  : null,
+
+
+              inStock: true,
+
+            });
+
+
+
+          imported++;
 
 
         }
@@ -227,9 +306,9 @@ router.post(
 
         res.json({
 
-          success:true,
+          success: true,
 
-          imported
+          imported,
 
         });
 
