@@ -9,14 +9,23 @@ export const productsTable = pgTable("products", {
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
 
+  type: text("type")
+    .notNull()
+    .default("simple"),
+
+  parentId: integer("parent_id"),
+
   description: text("description"),
 
-  price: numeric("price", { precision: 10, scale: 2 }).notNull(),
+  price: numeric("price", { precision: 10, scale: 2 })
+    .notNull(),
+
   salePrice: numeric("sale_price", { precision: 10, scale: 2 }),
 
-  categoryId: integer("category_id").notNull(),
+  categoryId: integer("category_id"),
 
   brand: text("brand"),
+
   fabric: text("fabric"),
 
   images: jsonb("images")
@@ -33,6 +42,11 @@ export const productsTable = pgTable("products", {
     .$type<string[]>()
     .notNull()
     .default([]),
+
+  attributes: jsonb("attributes")
+    .$type<Record<string, string>>()
+    .notNull()
+    .default({}),
 
   sku: text("sku"),
 
@@ -77,7 +91,8 @@ export const productsTable = pgTable("products", {
 export const productVariationsTable = pgTable("product_variations", {
   id: serial("id").primaryKey(),
 
-  productId: integer("product_id").notNull(),
+  productId: integer("product_id")
+    .notNull(),
 
   sku: text("sku"),
 
@@ -103,16 +118,16 @@ export const productVariationsTable = pgTable("product_variations", {
 
 
 export const insertProductSchema = createInsertSchema(productsTable)
-  .omit({ 
-    id: true, 
-    createdAt: true 
+  .omit({
+    id: true,
+    createdAt: true,
   });
 
 
 export const insertProductVariationSchema = createInsertSchema(productVariationsTable)
   .omit({
     id: true,
-    createdAt: true
+    createdAt: true,
   });
 
 
